@@ -5,9 +5,14 @@ public class BettingMenu extends PApplet {
     public static int window_width, window_height;
     public static float unit_x, unit_y, unit;
 
-    private final int numRows = 3;
-    private final int numCols = 13;
-    private Button[][] buttons;
+    private final int mainTableRows = 3;
+    private final int mainTableCols = 13;
+    private final int table4Cols = 3;
+    private final int table5Cols = 6;
+
+    private Button[][] mainButtons;
+    private Button[] table4Buttons;
+    private Button[] table5Buttons;
     private boolean[][] buttonStates;
 
     public void c_size(int width, int height) {
@@ -24,10 +29,23 @@ public class BettingMenu extends PApplet {
     }
 
     public void setup() {
+        processing = this;
+        windowTitle("Betting Menu | Roulette V2");
+        background(0);
+
+        int buttonWidth = 50;
+        int buttonHeight = 50;
+
+        mainButtons = new Button[mainTableRows][mainTableCols];
+        table4Buttons = new Button[table4Cols];
+        table5Buttons = new Button[table5Cols];
+
+        buttonStates = new boolean[mainTableRows + 2][mainTableCols];
+
         final String[] rouletteNumbers = {
-                "0", "3", "6", "9", "12", "15", "18", "21", "24", "27", "30", "33", "36", "2 to 1", // 1st column
-                "2", "5", "8", "11", "14", "17", "20", "23", "26", "29", "32", "35", "2 to 1", // 2nd column
-                "1", "4", "7", "10", "13", "16", "19", "22", "25", "28", "31", "34", "2 to 1" // 3rd column
+                "0", "3", "6", "9", "12", "15", "18", "21", "24", "27", "30", "33", "36", "2 to 1",
+                "2", "5", "8", "11", "14", "17", "20", "23", "26", "29", "32", "35", "2 to 1",
+                "1", "4", "7", "10", "13", "16", "19", "22", "25", "28", "31", "34", "2 to 1"
         };
 
         final int green = color(0, 255, 0);
@@ -35,50 +53,83 @@ public class BettingMenu extends PApplet {
         final int black = color(0, 0, 0);
 
         final int[] rouletteColors = {
-                green, red, black, red, red, black, red, red, black, red, red, black, red, green, // 1st column
-                black, red, black, black, red, black, black, red, black, black, red, black, green, // 2nd column
-                red, black, red, black, black, red, red, black, red, black, black, red, green // 3rd column
+                green, red, black, red, red, black, red, red, black, red, red, black, red, green,
+                black, red, black, black, red, black, black, red, black, black, red, black, green,
+                red, black, red, black, black, red, red, black, red, black, black, red, green
         };
-
 
         processing = this;
         windowTitle("Betting Menu | Roulette V2");
         background(0);
 
-        buttons = new Button[numRows][numCols];
-        buttonStates = new boolean[numRows][numCols];
-
-        int buttonWidth = 50;
-        int buttonHeight = 50;
         int current = 0;
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
+        for (int i = 0; i < mainTableRows; i++) {
+            for (int j = 0; j < mainTableCols; j++) {
+                int x = j * buttonWidth;
+                int y = i * buttonHeight;
+                mainButtons[i][j] = new Button(rouletteNumbers[current], x, y, buttonWidth, buttonHeight, rouletteColors[current]);
                 current++;
-                int x = (int) ((j + 1) + buttonWidth * j + 100*unit_x - buttonWidth*numCols*.5);
-                int y = (int) ((i + 1) + buttonHeight * i + 100*unit_y - buttonHeight*numRows*.5);
-                buttons[i][j] = new Button(rouletteNumbers[current], x, y, buttonWidth, buttonHeight, rouletteColors[current]);
             }
+        }
+        int oldButtonWidth = buttonWidth;
+        final String[] table4Labels = {"1st 12", "2nd 12", "3rd 12"};
+        buttonWidth *= 4;
+        for (int i = 0; i < table4Cols; i++) {
+            int x = i * buttonWidth + oldButtonWidth;
+            int y = mainTableRows * buttonHeight;
+            table4Buttons[i] = new Button(table4Labels[i], x, y, buttonWidth, buttonHeight, green);
+        }
+
+        final String[] table5Labels = {"1 to 18", "EVEN", "RED", "BLACK", "ODD", "19 to 36"};
+        buttonWidth /= 2;
+        final int[] color2 = {green, green, black, red, green, green};
+        for (int i = 0; i < table5Cols; i++) {
+            int x = i * buttonWidth + oldButtonWidth;
+            int y = (mainTableRows + 1) * buttonHeight;
+            table5Buttons[i] = new Button(table5Labels[i], x, y, buttonWidth, buttonHeight, color2[i]);
         }
     }
 
     public void draw() {
         background(50);
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                Button button = buttons[i][j];
+        for (int i = 0; i < mainTableRows; i++) {
+            for (int j = 0; j < mainTableCols; j++) {
+                Button button = mainButtons[i][j];
                 boolean buttonState = buttonStates[i][j];
                 button.display(buttonState);
             }
         }
+        for (int i = 0; i < table4Cols; i++) {
+            Button button = table4Buttons[i];
+            boolean buttonState = buttonStates[mainTableRows][i];
+            button.display(buttonState);
+        }
+        for (int i = 0; i < table5Cols; i++) {
+            Button button = table5Buttons[i];
+            boolean buttonState = buttonStates[mainTableRows + 1][i];
+            button.display(buttonState);
+        }
     }
 
     public void mousePressed() {
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numCols; j++) {
-                Button button = buttons[i][j];
+        for (int i = 0; i < mainTableRows; i++) {
+            for (int j = 0; j < mainTableCols; j++) {
+                Button button = mainButtons[i][j];
                 if (button.isMouseInside()) {
                     buttonStates[i][j] = !buttonStates[i][j];
                 }
+            }
+        }
+        for (int i = 0; i < table4Cols; i++) {
+            Button button = table4Buttons[i];
+            if (button.isMouseInside()) {
+                buttonStates[mainTableRows][i] = !buttonStates[mainTableRows][i];
+            }
+        }
+        for (int i = 0; i < table5Cols; i++) {
+            Button button = table5Buttons[i];
+            if (button.isMouseInside()) {
+                buttonStates[mainTableRows + 1][i] = !buttonStates[mainTableRows + 1][i];
             }
         }
     }
