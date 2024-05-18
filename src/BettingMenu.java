@@ -16,7 +16,7 @@ public class BettingMenu extends PApplet {
     private final int mainTableCols = 13;
     private final int table4Cols = 3;
     private final int table5Cols = 6;
-
+    private boolean no_money = false;
     private Button[][] mainButtons;
     private Button[] table4Buttons;
     private Button[] table5Buttons;
@@ -119,6 +119,10 @@ public class BettingMenu extends PApplet {
         }
         submitButton.display(0);
         displayMoney();
+        if (no_money) {
+            fill(255);
+            text("Insufficient money", 150*unit_x, 195*unit_y);
+        }
     }
 
     private void displayMoney() {
@@ -130,6 +134,7 @@ public class BettingMenu extends PApplet {
     }
 
     public void mousePressed() {
+        if ((money + current_bet) - 100 > -1) {
         for (int i = 0; i < mainTableRows; i++) {
             for (int j = 0; j < mainTableCols; j++) {
                 Button button = mainButtons[i][j];
@@ -158,6 +163,11 @@ public class BettingMenu extends PApplet {
                     current_bet -= 100;
                 }
             }
+        }
+        } else {
+            no_money = true;
+            fill(255);
+            text("Insufficient money", 150*unit_x, 195*unit_y);
         }
         if (submitButton.isMouseInside()) {
             String[] joinedArray = Stream.concat(
@@ -211,6 +221,7 @@ public class BettingMenu extends PApplet {
                 table5Buttons[i].display(0);
             }
             current_bet = 0;
+            no_money = false;
         }
     }
 
