@@ -17,7 +17,7 @@ public class BettingMenu extends PApplet {
     private Button[][] mainButtons;
     private Button[] table4Buttons;
     private Button[] table5Buttons;
-    private boolean[][] buttonStates;
+    private int[][] buttonStates;
 
     public void c_size(int width, int height) {
         window_width = width;
@@ -44,7 +44,7 @@ public class BettingMenu extends PApplet {
         table4Buttons = new Button[table4Cols];
         table5Buttons = new Button[table5Cols];
 
-        buttonStates = new boolean[mainTableRows + 2][mainTableCols];
+        buttonStates = new int[mainTableRows + 2][mainTableCols];
 
         final String[] rouletteNumbers = {
                 "0", "3", "6", "9", "12", "15", "18", "21", "24", "27", "30", "33", "36", "2 to 1",
@@ -99,19 +99,19 @@ public class BettingMenu extends PApplet {
         for (int i = 0; i < mainTableRows; i++) {
             for (int j = 0; j < mainTableCols; j++) {
                 Button button = mainButtons[i][j];
-                boolean buttonState = buttonStates[i][j];
-                button.display(buttonState);
+                int pressCount = buttonStates[i][j];
+                button.display(pressCount);
             }
         }
         for (int i = 0; i < table4Cols; i++) {
             Button button = table4Buttons[i];
-            boolean buttonState = buttonStates[mainTableRows][i];
-            button.display(buttonState);
+            int pressCount = buttonStates[mainTableRows][i];
+            button.display(pressCount);
         }
         for (int i = 0; i < table5Cols; i++) {
             Button button = table5Buttons[i];
-            boolean buttonState = buttonStates[mainTableRows + 1][i];
-            button.display(buttonState);
+            int pressCount = buttonStates[mainTableRows + 1][i];
+            button.display(pressCount);
         }
     }
 
@@ -120,20 +120,26 @@ public class BettingMenu extends PApplet {
             for (int j = 0; j < mainTableCols; j++) {
                 Button button = mainButtons[i][j];
                 if (button.isMouseInside()) {
-                    buttonStates[i][j] = !buttonStates[i][j];
+                    if (buttonStates[i][j] < 10) {
+                        buttonStates[i][j]++;
+                    }
                 }
             }
         }
         for (int i = 0; i < table4Cols; i++) {
             Button button = table4Buttons[i];
             if (button.isMouseInside()) {
-                buttonStates[mainTableRows][i] = !buttonStates[mainTableRows][i];
+                if (buttonStates[mainTableRows][i] < 10) {
+                    buttonStates[mainTableRows][i]++;
+                }
             }
         }
         for (int i = 0; i < table5Cols; i++) {
             Button button = table5Buttons[i];
             if (button.isMouseInside()) {
-                buttonStates[mainTableRows + 1][i] = !buttonStates[mainTableRows + 1][i];
+                if (buttonStates[mainTableRows + 1][i] < 10) {
+                    buttonStates[mainTableRows + 1][i]++;
+                }
             }
         }
     }
@@ -144,19 +150,19 @@ public class BettingMenu extends PApplet {
             frame.dispose();
         }
         if (key == 'r') {
-            for (boolean[] buttonState : buttonStates) {
-                Arrays.fill(buttonState, false);
+            for (int[] buttonState : buttonStates) {
+                Arrays.fill(buttonState, 0);
             }
             for (int i = 0; i < mainTableRows; i++) {
                 for (int j = 0; j < mainTableCols; j++) {
-                    mainButtons[i][j].display(false);
+                    mainButtons[i][j].display(0);
                 }
             }
             for (int i = 0; i < table4Cols; i++) {
-                table4Buttons[i].display(false);
+                table4Buttons[i].display(0);
             }
             for (int i = 0; i < table5Cols; i++) {
-                table5Buttons[i].display(false);
+                table5Buttons[i].display(0);
             }
         }
     }
@@ -182,9 +188,9 @@ public class BettingMenu extends PApplet {
             return mouseX >= x && mouseX <= x + w && mouseY >= y && mouseY <= y + h;
         }
 
-        void display(boolean pressed) {
-            if (pressed) {
-                fill(0, 0, 255);
+        void display(int pressCount) {
+            if (pressCount > 0) {
+                fill(0, 0, min(255, 25 * pressCount));
             } else {
                 fill(default_color);
             }
