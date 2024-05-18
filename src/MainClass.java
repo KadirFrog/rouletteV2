@@ -1,11 +1,13 @@
+import processing.awt.PSurfaceAWT;
 import processing.core.PApplet;
+
+import java.awt.*;
 
 public class MainClass extends PApplet {
     public static int window_width, window_height;
     public static float unit_x, unit_y, unit;
     public static PApplet processing;
-    private boolean showAdditionalWindow = false;
-
+    private boolean showBettingMenu = false;
     public static void main(String[] args) {
         PApplet.main("MainClass", args);
     }
@@ -26,6 +28,7 @@ public class MainClass extends PApplet {
     public void setup() {
         processing = this;
         background(0);
+        windowTitle("Roulette V2 - von Kadir 9c");
     }
 
     public void draw() {
@@ -35,11 +38,14 @@ public class MainClass extends PApplet {
     }
 
     public void keyPressed() {
-        if (key == 'o') {
-            showAdditionalWindow = !showAdditionalWindow;
-            if (showAdditionalWindow) {
+        if (key == 'm') {
+            showBettingMenu = !showBettingMenu;
+            if (showBettingMenu) {
                 String[] additionalWindowArgs = {"BettingMenu"};
                 PApplet.runSketch(additionalWindowArgs, new BettingMenu());
+            } else {
+                Frame frame = ((PSurfaceAWT.SmoothCanvas) BettingMenu.processing.getSurface().getNative()).getFrame();
+                frame.dispose();
             }
         }
     }
