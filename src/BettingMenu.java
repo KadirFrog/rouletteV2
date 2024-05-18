@@ -3,12 +3,15 @@ import processing.core.PApplet;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Stream;
 
 public class BettingMenu extends PApplet {
     public static PApplet processing;
     public static int window_width, window_height;
     public static float unit_x, unit_y, unit;
-
+    public int current_bet = 0;
+    public int money;
     private final int mainTableRows = 3;
     private final int mainTableCols = 13;
     private final int table4Cols = 3;
@@ -18,6 +21,14 @@ public class BettingMenu extends PApplet {
     private Button[] table4Buttons;
     private Button[] table5Buttons;
     private int[][] buttonStates;
+    Button submitButton;
+    final String[] rouletteNumbers = {
+            "0", "3", "6", "9", "12", "15", "18", "21", "24", "27", "30", "33", "36", "2 to 1",
+            "2", "5", "8", "11", "14", "17", "20", "23", "26", "29", "32", "35", "2 to 1",
+            "1", "4", "7", "10", "13", "16", "19", "22", "25", "28", "31", "34", "2 to 1"
+    };
+    final String[] table4Labels = {"1st 12", "2nd 12", "3rd 12"};
+    final String[] table5Labels = {"1 to 18", "EVEN", "RED", "BLACK", "ODD", "19 to 36"};
 
     public void c_size(int width, int height) {
         window_width = width;
@@ -36,7 +47,7 @@ public class BettingMenu extends PApplet {
         processing = this;
         windowTitle("Betting Menu | Roulette V2");
         background(0);
-
+        money = BetManager.money;
         int buttonWidth = 50;
         int buttonHeight = 50;
 
@@ -45,12 +56,6 @@ public class BettingMenu extends PApplet {
         table5Buttons = new Button[table5Cols];
 
         buttonStates = new int[mainTableRows + 2][mainTableCols];
-
-        final String[] rouletteNumbers = {
-                "0", "3", "6", "9", "12", "15", "18", "21", "24", "27", "30", "33", "36", "2 to 1",
-                "2", "5", "8", "11", "14", "17", "20", "23", "26", "29", "32", "35", "2 to 1",
-                "1", "4", "7", "10", "13", "16", "19", "22", "25", "28", "31", "34", "2 to 1"
-        };
 
         final int green = color(0, 255, 0);
         final int red = color(255, 0, 0);
@@ -76,7 +81,6 @@ public class BettingMenu extends PApplet {
             }
         }
         int oldButtonWidth = buttonWidth;
-        final String[] table4Labels = {"1st 12", "2nd 12", "3rd 12"};
         buttonWidth *= 4;
         for (int i = 0; i < table4Cols; i++) {
             int x = i * buttonWidth + oldButtonWidth;
@@ -84,7 +88,6 @@ public class BettingMenu extends PApplet {
             table4Buttons[i] = new Button(table4Labels[i], x, y, buttonWidth, buttonHeight, green);
         }
 
-        final String[] table5Labels = {"1 to 18", "EVEN", "RED", "BLACK", "ODD", "19 to 36"};
         buttonWidth /= 2;
         final int[] color2 = {green, green, black, red, green, green};
         for (int i = 0; i < table5Cols; i++) {
@@ -92,6 +95,7 @@ public class BettingMenu extends PApplet {
             int y = (mainTableRows + 1) * buttonHeight;
             table5Buttons[i] = new Button(table5Labels[i], x, y, buttonWidth, buttonHeight, color2[i]);
         }
+        submitButton = new Button("Submit bet", (int) (100*unit_x), (int) (150*unit_y), (int) (50*unit_x), (int) (20*unit_y), color(212, 175, 55));
     }
 
     public void draw() {
@@ -113,6 +117,16 @@ public class BettingMenu extends PApplet {
             int pressCount = buttonStates[mainTableRows + 1][i];
             button.display(pressCount);
         }
+        submitButton.display(0);
+        displayMoney();
+    }
+
+    private void displayMoney() {
+        fill(processing.g.backgroundColor);
+        strokeWeight(0);
+        rect(160*unit_x, 140*unit_y, 30*unit_x, 20*unit_y);
+        fill(255);
+        text("Money left: " + (money + current_bet), 175*unit_x, 150*unit_y);
     }
 
     public void mousePressed() {
@@ -120,8 +134,9 @@ public class BettingMenu extends PApplet {
             for (int j = 0; j < mainTableCols; j++) {
                 Button button = mainButtons[i][j];
                 if (button.isMouseInside()) {
-                    if (buttonStates[i][j] < 10) {
+                    if (buttonStates[i][j] < 5) {
                         buttonStates[i][j]++;
+                        current_bet -= 100;
                     }
                 }
             }
@@ -129,23 +144,54 @@ public class BettingMenu extends PApplet {
         for (int i = 0; i < table4Cols; i++) {
             Button button = table4Buttons[i];
             if (button.isMouseInside()) {
-                if (buttonStates[mainTableRows][i] < 10) {
+                if (buttonStates[mainTableRows][i] < 5) {
                     buttonStates[mainTableRows][i]++;
+                    current_bet -= 100;
                 }
             }
         }
         for (int i = 0; i < table5Cols; i++) {
             Button button = table5Buttons[i];
             if (button.isMouseInside()) {
-                if (buttonStates[mainTableRows + 1][i] < 10) {
+                if (buttonStates[mainTableRows + 1][i] < 5) {
                     buttonStates[mainTableRows + 1][i]++;
+                    current_bet -= 100;
                 }
             }
         }
+        if (submitButton.isMouseInside()) {
+            String[] joinedArray = Stream.concat(
+                            Stream.concat(Arrays.stream(rouletteNumbers), Arrays.stream(table4Labels)),
+                            Arrays.stream(table5Labels))
+                    .toArray(String[]::new);
+
+            int count = 0;
+            for (int[] buttonState : buttonStates) {
+                for (int i : buttonState) {
+                    if (i > 0) {
+                        BetManager.bets.put(joinedArray[count], i);
+                        BetManager.bet = current_bet;
+                    }
+                    count++;
+                }
+            }
+            boolean correct_bet = false;
+            for (Map.Entry<String, Integer> entry : BetManager.bets.entrySet()) {
+                correct_bet = true;
+                System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+            }
+            if (correct_bet) {
+            MainClass.showBettingMenu = false;
+            Frame frame = ((PSurfaceAWT.SmoothCanvas) BettingMenu.processing.getSurface().getNative()).getFrame();
+            frame.dispose();
+            }
+        }
+        displayMoney();
     }
 
     public void keyPressed() {
         if (key == 'm') {
+            MainClass.showBettingMenu = false;
             Frame frame = ((PSurfaceAWT.SmoothCanvas) BettingMenu.processing.getSurface().getNative()).getFrame();
             frame.dispose();
         }
@@ -164,6 +210,7 @@ public class BettingMenu extends PApplet {
             for (int i = 0; i < table5Cols; i++) {
                 table5Buttons[i].display(0);
             }
+            current_bet = 0;
         }
     }
 
@@ -190,7 +237,7 @@ public class BettingMenu extends PApplet {
 
         void display(int pressCount) {
             if (pressCount > 0) {
-                fill(0, 0, min(255, 25 * pressCount));
+                fill(0, 0, min(255, 50 * pressCount));
             } else {
                 fill(default_color);
             }

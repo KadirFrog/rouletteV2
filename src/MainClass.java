@@ -7,7 +7,7 @@ public class MainClass extends PApplet {
     public static int window_width, window_height;
     public static float unit_x, unit_y, unit;
     public static PApplet processing;
-    private boolean showBettingMenu = false;
+    public static boolean showBettingMenu = false;
     public static void main(String[] args) {
         PApplet.main("MainClass", args);
     }
