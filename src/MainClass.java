@@ -5,7 +5,7 @@ public class MainClass extends PApplet {
     public static float unit_x, unit_y, unit;
     public static PApplet processing;
     public static void main(String[] args) {
-        PApplet.main("Main", args);
+        PApplet.main("MainClass", args);
     }
     public void c_size(int width, int height) {
         window_width = width;
@@ -25,33 +25,8 @@ public class MainClass extends PApplet {
     }
     public void draw() {
         background(0);
-        String text = "Processing";
-        float cx = 100 * unit_x;
-        float cy = 100 * unit_y;
-        float r = 30 * unit;
-        float starting_point = 0.5F;
-        float ending_point = 1.0F;
-
-        float startAngle = (starting_point * TWO_PI) - HALF_PI;
-        float endAngle = (ending_point * TWO_PI) - HALF_PI;
-
-        strokeWeight(3);
-        noFill();
-        ellipse(cx, cy, r * 2, r * 2);
-
-        float angleIncrement = (endAngle - startAngle) / (text.length() - 1);
-
-        for (int i = 0; i < text.length(); i++) {
-            char c = text.charAt(i);
-            float angle = startAngle + i * angleIncrement;
-            float x = cx + r * cos(angle);
-            float y = cy + r * sin(angle);
-            pushMatrix();
-            translate(x, y);
-            rotate(angle + HALF_PI);
-            fill(255);
-            text(c, 0, 0);
-            popMatrix();
-        }
+        CustomTypes.Position m = new CustomTypes.Position(100, 100); CustomTypes.Length m2 = new CustomTypes.Length(20);
+        TextManager.RotationCenterPoint main_center_point = new TextManager.RotationCenterPoint(m, m2);
+        main_center_point.text("Testing really good", 0, 0.25F);
     }
 }

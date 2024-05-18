@@ -17,7 +17,6 @@ public class TextManager {
             float startAngle = (starting_point * TWO_PI) - HALF_PI;
             float endAngle = (ending_point * TWO_PI) - HALF_PI;
 
-
             float angleIncrement = (endAngle - startAngle) / (text.length() - 1);
 
             for (int i = 0; i < text.length(); i++) {
@@ -29,10 +28,9 @@ public class TextManager {
                 MainClass.processing.translate(x, y);
                 MainClass.processing.rotate(angle + HALF_PI);
                 MainClass.processing.fill(255);
-                text(text, 0, 0);
+                MainClass.processing.text(c, 0, 0);
                 MainClass.processing.popMatrix();
             }
         }
     }
-
 }
