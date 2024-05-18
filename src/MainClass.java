@@ -1,8 +1,8 @@
 import processing.core.PApplet;
 
-public class Main extends PApplet {
-    public int window_width, window_height;
-    public float unit_x, unit_y, unit;
+public class MainClass extends PApplet {
+    public static int window_width, window_height;
+    public static float unit_x, unit_y, unit;
     public static PApplet processing;
     public static void main(String[] args) {
         PApplet.main("Main", args);
@@ -29,15 +29,17 @@ public class Main extends PApplet {
         float cx = 100 * unit_x;
         float cy = 100 * unit_y;
         float r = 30 * unit;
-        float circle_percentage = 0.5F;
         float starting_point = 0.5F;
-        float startAngle = (starting_point*4*HALF_PI) -HALF_PI;
+        float ending_point = 1.0F;
+
+        float startAngle = (starting_point * TWO_PI) - HALF_PI;
+        float endAngle = (ending_point * TWO_PI) - HALF_PI;
 
         strokeWeight(3);
         noFill();
         ellipse(cx, cy, r * 2, r * 2);
 
-        float angleIncrement = (TWO_PI * circle_percentage) / (text.length() - 1);
+        float angleIncrement = (endAngle - startAngle) / (text.length() - 1);
 
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
