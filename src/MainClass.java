@@ -1,7 +1,7 @@
 import processing.awt.PSurfaceAWT;
 import processing.core.PApplet;
-
 import java.awt.*;
+import java.util.Vector;
 
 public class MainClass extends PApplet {
     public static int window_width, window_height;
@@ -29,12 +29,24 @@ public class MainClass extends PApplet {
         processing = this;
         background(0);
         windowTitle("Roulette V2 - von Kadir 9c");
+        RouletteDrawer.setup((int) (50*unit), (int) (70*unit));
+        frameRate(30);
     }
 
     public void draw() {
-        background(0);
         TextManager.RotationCenterPoint main_center_point = new TextManager.RotationCenterPoint(new CustomTypes.Position(100, 100), new CustomTypes.Length(20));
         main_center_point.text("Testing really good", 0, 0.25F);
+        delay(1);
+        fill(color(255, 255, 255));
+        strokeWeight(5);
+        line(0, 0, 1000, 1000);
+        Vector<CustomTypes.Position> inner = RouletteDrawer.getRouletteCoordsInner();
+        for (int i = 0; i < inner.size(); i=i+2) {
+            fill(255);
+            strokeWeight(5);
+            CustomTypes.cline(inner.get(i), inner.get(i + 1));
+
+        }
     }
 
     public void keyPressed() {
@@ -49,4 +61,5 @@ public class MainClass extends PApplet {
             }
         }
     }
+
 }

@@ -12,4 +12,9 @@ public class CustomTypes {
             this.f = length * MainClass.unit;
         }
     }
+    public static void cline(Position a, Position b){
+        MainClass.processing.fill(255);
+        MainClass.processing.strokeWeight(5);
+        MainClass.processing.line(a.x, a.y, b.x, b.y);
+    }
 }
