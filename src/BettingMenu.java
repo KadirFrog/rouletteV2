@@ -191,9 +191,10 @@ public class BettingMenu extends PApplet {
                 System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
             }
             if (correct_bet) {
-            MainClass.showBettingMenu = false;
-            Frame frame = ((PSurfaceAWT.SmoothCanvas) BettingMenu.processing.getSurface().getNative()).getFrame();
-            frame.dispose();
+                BetManager.bet_ready = true;
+                MainClass.showBettingMenu = false;
+                Frame frame = ((PSurfaceAWT.SmoothCanvas) BettingMenu.processing.getSurface().getNative()).getFrame();
+                frame.dispose();
             }
         }
         displayMoney();
