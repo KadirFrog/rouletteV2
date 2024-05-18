@@ -1,4 +1,8 @@
+import processing.awt.PSurfaceAWT;
 import processing.core.PApplet;
+
+import java.awt.*;
+import java.util.Arrays;
 
 public class BettingMenu extends PApplet {
     public static PApplet processing;
@@ -136,7 +140,24 @@ public class BettingMenu extends PApplet {
 
     public void keyPressed() {
         if (key == 'm') {
-            exit();
+            Frame frame = ((PSurfaceAWT.SmoothCanvas) BettingMenu.processing.getSurface().getNative()).getFrame();
+            frame.dispose();
+        }
+        if (key == 'r') {
+            for (boolean[] buttonState : buttonStates) {
+                Arrays.fill(buttonState, false);
+            }
+            for (int i = 0; i < mainTableRows; i++) {
+                for (int j = 0; j < mainTableCols; j++) {
+                    mainButtons[i][j].display(false);
+                }
+            }
+            for (int i = 0; i < table4Cols; i++) {
+                table4Buttons[i].display(false);
+            }
+            for (int i = 0; i < table5Cols; i++) {
+                table5Buttons[i].display(false);
+            }
         }
     }
 
