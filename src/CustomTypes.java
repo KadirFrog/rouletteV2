@@ -18,7 +18,7 @@ public class CustomTypes {
     }
     public static void cline(Position a, Position b){
         MainClass.processing.stroke(255);
-        MainClass.processing.strokeWeight(5);
+        MainClass.processing.strokeWeight(1);
         MainClass.processing.line(a.x, a.y, b.x, b.y);
         System.out.println("Line " + a.x + " " + a.y + " " + b.x + " " + b.y);
     }

@@ -29,7 +29,7 @@ public class MainClass extends PApplet {
         processing = this;
         background(0);
         windowTitle("Roulette V2 - von Kadir 9c");
-        RouletteDrawer.setup((int) (50*unit), (int) (70*unit));
+        RouletteDrawer.setup((int) (200), (int) (300));
         frameRate(30);
     }
 
@@ -39,7 +39,10 @@ public class MainClass extends PApplet {
         delay(1);
         Vector<CustomTypes.Position> inner = RouletteDrawer.getRouletteCoordsInner();
         for (int i = 0; i < inner.size(); i=i+2) {
-            CustomTypes.cline(inner.get(i), inner.get(i + 1));
+            try {
+            CustomTypes.cline(inner.get(i), inner.get(i + 1));} catch (ArrayIndexOutOfBoundsException e) {
+                CustomTypes.cline(inner.get(0), inner.get(i));
+            }
         }
     }
 
