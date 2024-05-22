@@ -14,7 +14,7 @@ public class RouletteDrawer {
             float angle = i * angleIncrement + d_offset;
             float x = (float) (radiusInner * Math.cos(angle));
             float y = (float) (radiusInner * Math.sin(angle));
-            coords1.add(new CustomTypes.Position((100 + x), (100 + y)));
+            coords1.add(new CustomTypes.Position((500 + x), (500 + y), true));
         }
         return coords1;
     }
@@ -26,7 +26,7 @@ public class RouletteDrawer {
             float angle = i * angleIncrement + d_offset;
             float x = (float) (radiusOuter * Math.cos(angle));
             float y = (float) (radiusOuter * Math.sin(angle));
-            coords2.add(new CustomTypes.Position((100 + x), (100 + y)));
+            coords2.add(new CustomTypes.Position((500 + x), (500 + y), true));
         }
         return coords2;
     }
