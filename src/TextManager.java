@@ -32,5 +32,26 @@ public class TextManager {
                 MainClass.processing.popMatrix();
             }
         }
+        public void text_based_on_field(int field) {
+            float u = (float) 1 / 37;
+            float hu = u / 2;
+            for (int i = field; i < CustomTypes.rouletteNumbers.length; i++) {
+                text(CustomTypes.rouletteNumbersDouble[i], u*i+hu, u*i+hu+hu/2);
+            }
+        }
+        public void text_based_on_field(String field) throws Exception {
+            int index = 0; boolean found = false;
+            for (int i = 0; i < CustomTypes.rouletteNumbers.length; i++) {
+                if (field.equals(CustomTypes.rouletteNumbers[i])) {
+                    index = i;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                throw new Exception("String is wrong");
+            }
+            text_based_on_field(index);
+        }
     }
 }

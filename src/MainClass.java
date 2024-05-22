@@ -35,7 +35,7 @@ public class MainClass extends PApplet {
 
     public void draw() {
         TextManager.RotationCenterPoint main_center_point = new TextManager.RotationCenterPoint(new CustomTypes.Position(100, 100), new CustomTypes.Length(20));
-        main_center_point.text("Testing really good", 0, 0.25F);
+        //main_center_point.text("Testing really good", 0, 0.25F);
         delay(1);
         Vector<CustomTypes.Position> inner1 = RouletteDrawer.getRouletteCoordsInner();
         Vector<CustomTypes.Position> outer1 = RouletteDrawer.getRouletteCoordsOuter();
@@ -62,6 +62,7 @@ public class MainClass extends PApplet {
                 CustomTypes.cline(outer1.get(0), outer1.get(i));
             }
         }
+        main_center_point.text_based_on_field(0);
     }
 
     public void keyPressed() {
