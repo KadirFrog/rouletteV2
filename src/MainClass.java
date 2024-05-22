@@ -38,12 +38,15 @@ public class MainClass extends PApplet {
         main_center_point.text("Testing really good", 0, 0.25F);
         delay(1);
         Vector<CustomTypes.Position> inner = RouletteDrawer.getRouletteCoordsInner();
+        //CustomTypes.cline(new CustomTypes.Position());
+
         for (int i = 0; i < inner.size(); i=i+2) {
             try {
             CustomTypes.cline(inner.get(i), inner.get(i + 1));} catch (ArrayIndexOutOfBoundsException e) {
                 CustomTypes.cline(inner.get(0), inner.get(i));
             }
         }
+
     }
 
     public void keyPressed() {

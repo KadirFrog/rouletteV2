@@ -32,11 +32,11 @@ public class RouletteDrawer {
     }
     public static Vector<CustomTypes.Position> getRouletteCoordsInner() {
         Vector<CustomTypes.Position> coords1 = getRouletteCoordsInnerBack(0);
-        //Vector<CustomTypes.Position> coords2 = getRouletteCoordsInnerBack(1);
+        Vector<CustomTypes.Position> coords2 = getRouletteCoordsInnerBack(1);
         Vector<CustomTypes.Position> coords = new Vector<>();
         for (int i = 0; i < coords1.size(); i++) {
             coords.add(coords1.get(i));
-            //coords.add(coords2.get(i));
+            coords.add(coords2.get(i));
         }
         return coords;
     }
