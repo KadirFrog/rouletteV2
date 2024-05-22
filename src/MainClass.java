@@ -27,9 +27,9 @@ public class MainClass extends PApplet {
 
     public void setup() {
         processing = this;
-        background(0);
+        background(color(0, 255, 0));
         windowTitle("Roulette V2 - von Kadir 9c");
-        RouletteDrawer.setup((int) (200), (int) (300));
+        RouletteDrawer.setup(200, 300);
         frameRate(30);
     }
 
@@ -37,16 +37,31 @@ public class MainClass extends PApplet {
         TextManager.RotationCenterPoint main_center_point = new TextManager.RotationCenterPoint(new CustomTypes.Position(100, 100), new CustomTypes.Length(20));
         main_center_point.text("Testing really good", 0, 0.25F);
         delay(1);
-        Vector<CustomTypes.Position> inner = RouletteDrawer.getRouletteCoordsInner();
-        //CustomTypes.cline(new CustomTypes.Position());
-
-        for (int i = 0; i < inner.size(); i=i+2) {
+        Vector<CustomTypes.Position> inner1 = RouletteDrawer.getRouletteCoordsInner();
+        Vector<CustomTypes.Position> outer1 = RouletteDrawer.getRouletteCoordsOuter();
+        stroke(0);
+        fill(color(165, 42, 42));
+        circle(500, 500, RouletteDrawer.radiusOuter*2);
+        stroke(255);
+        for (int i = 0; i < inner1.size(); i += 2) {
             try {
-            CustomTypes.cline(inner.get(i), inner.get(i + 1));} catch (ArrayIndexOutOfBoundsException e) {
-                CustomTypes.cline(inner.get(0), inner.get(i));
+                CustomTypes.cline(inner1.get(i), inner1.get(i + 1));
+                CustomTypes.cline(outer1.get(i), outer1.get(i + 1));
+            } catch (ArrayIndexOutOfBoundsException e) {
+                CustomTypes.cline(inner1.get(0), inner1.get(i));
+                CustomTypes.cline(outer1.get(0), outer1.get(i));
             }
         }
-
+        stroke(-65536);
+        for (int i = 1; i < inner1.size(); i += 2) {
+            try {
+                CustomTypes.cline(inner1.get(i), inner1.get(i + 1));
+                CustomTypes.cline(outer1.get(i), outer1.get(i + 1));
+            } catch (ArrayIndexOutOfBoundsException e) {
+                CustomTypes.cline(inner1.get(0), inner1.get(i));
+                CustomTypes.cline(outer1.get(0), outer1.get(i));
+            }
+        }
     }
 
     public void keyPressed() {

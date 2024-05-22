@@ -1,53 +1,45 @@
 import java.util.Vector;
 
 public class RouletteDrawer {
-    private static int radiusInner, radiusOuter;
+    public static int radiusInner, radiusOuter;
+
     public static void setup(int radiusInner, int radiusOuter) {
         RouletteDrawer.radiusInner = radiusInner;
         RouletteDrawer.radiusOuter = radiusOuter;
     }
-    private static Vector<CustomTypes.Position> getRouletteCoordsInnerBack(int d_offset) {
-        Vector<CustomTypes.Position> coords1 = new Vector<>();
-        int r_len = 37;
-        float angleIncrement = (float) (2 * Math.PI / r_len);
-        for (int i = 0; i < r_len; i++) {
-            float angle = i * angleIncrement + d_offset;
-            float x = (float) (radiusInner * Math.cos(angle));
-            float y = (float) (radiusInner * Math.sin(angle));
-            coords1.add(new CustomTypes.Position((500 + x), (500 + y), true));
+
+    private static Vector<CustomTypes.Position> getRouletteCoordsBack(int radius) {
+        Vector<CustomTypes.Position> coords = new Vector<>();
+        int segments = 36; // 18 lines and 18 gaps
+        float angleIncrement = (float) (2 * Math.PI / segments);
+
+        for (int i = 0; i < segments; i += 2) {
+            // Draw a line
+            float angleStart = i * angleIncrement;
+            float xStart = (float) (radius * Math.cos(angleStart));
+            float yStart = (float) (radius * Math.sin(angleStart));
+            coords.add(new CustomTypes.Position(500 + xStart, 500 + yStart, true));
+
+            // Calculate end position of the line
+            float angleEnd = (i + 1) * angleIncrement;
+            float xEnd = (float) (radius * Math.cos(angleEnd));
+            float yEnd = (float) (radius * Math.sin(angleEnd));
+            coords.add(new CustomTypes.Position(500 + xEnd, 500 + yEnd, true));
+
+            // Skip the gap by moving to the next starting position
+            // (this is done by incrementing i by 2 in the for loop)
         }
-        return coords1;
+
+        return coords;
     }
-    private static Vector<CustomTypes.Position> getRouletteCoordsOuterBack(int d_offset) {
-        Vector<CustomTypes.Position> coords2 = new Vector<>();
-        int r_len = 37;
-        float angleIncrement = (float) (2 * Math.PI / r_len);
-        for (int i = 0; i < r_len; i++) {
-            float angle = i * angleIncrement + d_offset;
-            float x = (float) (radiusOuter * Math.cos(angle));
-            float y = (float) (radiusOuter * Math.sin(angle));
-            coords2.add(new CustomTypes.Position((500 + x), (500 + y), true));
-        }
-        return coords2;
-    }
+
+
+
     public static Vector<CustomTypes.Position> getRouletteCoordsInner() {
-        Vector<CustomTypes.Position> coords1 = getRouletteCoordsInnerBack(0);
-        Vector<CustomTypes.Position> coords2 = getRouletteCoordsInnerBack(1);
-        Vector<CustomTypes.Position> coords = new Vector<>();
-        for (int i = 0; i < coords1.size(); i++) {
-            coords.add(coords1.get(i));
-            coords.add(coords2.get(i));
-        }
-        return coords;
+        return getRouletteCoordsBack(radiusInner);
     }
+
     public static Vector<CustomTypes.Position> getRouletteCoordsOuter() {
-        Vector<CustomTypes.Position> coords1 = getRouletteCoordsOuterBack(0);
-        Vector<CustomTypes.Position> coords2 = getRouletteCoordsOuterBack(1);
-        Vector<CustomTypes.Position> coords = new Vector<>();
-        for (int i = 0; i < coords1.size(); i++) {
-            coords.add(coords1.get(i));
-            coords.add(coords2.get(i));
-        }
-        return coords;
+        return getRouletteCoordsBack(radiusOuter);
     }
 }
