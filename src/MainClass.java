@@ -27,7 +27,7 @@ public class MainClass extends PApplet {
 
     public void setup() {
         processing = this;
-        background(color(0, 255, 0));
+        background(color(0, 150, 0));
         windowTitle("Roulette V2 - von Kadir 9c");
         RouletteDrawer.setup(200, 300);
         frameRate(30);
@@ -40,9 +40,9 @@ public class MainClass extends PApplet {
         Vector<CustomTypes.Position> inner1 = RouletteDrawer.getRouletteCoordsInner();
         Vector<CustomTypes.Position> outer1 = RouletteDrawer.getRouletteCoordsOuter();
         stroke(0);
-        fill(color(165, 42, 42));
+        fill(color(140, 42, 42));
         circle(500, 500, RouletteDrawer.radiusOuter*2);
-        stroke(255);
+        stroke(0);
         for (int i = 0; i < inner1.size(); i += 2) {
             try {
                 CustomTypes.cline(inner1.get(i), inner1.get(i + 1));
