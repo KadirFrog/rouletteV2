@@ -36,7 +36,7 @@ public class TextManager {
             float u = (float) 1 / 37;
             float hu = u / 2;
             for (int i = field; i < CustomTypes.rouletteNumbers.length; i++) {
-                text(CustomTypes.rouletteNumbersDouble[i], u*i+hu, u*i+hu+hu/2);
+                text(CustomTypes.rouletteNumbersDouble[i], u*i+hu/2, u*i+hu+hu/4);
             }
         }
         public void text_based_on_field(String field) throws Exception {
