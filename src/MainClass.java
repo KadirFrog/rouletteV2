@@ -62,6 +62,10 @@ public class MainClass extends PApplet {
                 CustomTypes.cline(outer1.get(0), outer1.get(i));
             }
         }
+        for (int i = 0; i < inner1.size(); i++) {
+            stroke(color(130, 40, 40));
+            CustomTypes.cline(inner1.get(i), outer1.get(i));
+        }
         main_center_point.text_based_on_field(0);
     }
 

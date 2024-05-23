@@ -10,7 +10,7 @@ public class RouletteDrawer {
 
     private static Vector<CustomTypes.Position> getRouletteCoordsBack(int radius) {
         Vector<CustomTypes.Position> coords = new Vector<>();
-        int segments = 36;
+        int segments = 37;
         float angleIncrement = (float) (2 * Math.PI / segments);
 
         for (int i = 0; i < segments; i += 2) {
