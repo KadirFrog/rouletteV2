@@ -8,13 +8,13 @@ public class RouletteDrawer {
         RouletteDrawer.radiusOuter = radiusOuter;
     }
 
-    private static Vector<CustomTypes.Position> getRouletteCoordsBack(int radius) {
+    private static Vector<CustomTypes.Position> getRouletteCoordsBack(int radius, float turned_segment) {
         Vector<CustomTypes.Position> coords = new Vector<>();
         int segments = 37;
         float angleIncrement = (float) (2 * Math.PI / segments);
 
         for (int i = 0; i < segments; i += 2) {
-            float angleStart = i * angleIncrement;
+            float angleStart = (i + turned_segment) * angleIncrement;
             float xStart = (float) (radius * Math.cos(angleStart));
             float yStart = (float) (radius * Math.sin(angleStart));
             coords.add(new CustomTypes.Position(500 + xStart, 500 + yStart, true));
@@ -27,13 +27,11 @@ public class RouletteDrawer {
         return coords;
     }
 
-
-
-    public static Vector<CustomTypes.Position> getRouletteCoordsInner() {
-        return getRouletteCoordsBack(radiusInner);
+    public static Vector<CustomTypes.Position> getRouletteCoordsInner(float turn) {
+        return getRouletteCoordsBack(radiusInner, turn);
     }
 
-    public static Vector<CustomTypes.Position> getRouletteCoordsOuter() {
-        return getRouletteCoordsBack(radiusOuter);
+    public static Vector<CustomTypes.Position> getRouletteCoordsOuter(float turn) {
+        return getRouletteCoordsBack(radiusOuter, turn);
     }
 }

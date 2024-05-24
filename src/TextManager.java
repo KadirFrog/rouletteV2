@@ -32,11 +32,12 @@ public class TextManager {
                 MainClass.processing.popMatrix();
             }
         }
-        public void text_based_on_field(int field) {
+        public void text_based_on_field(int field, float field_f) {
             float u = (float) 1 / 37;
             float hu = u / 2;
             for (int i = field; i < CustomTypes.rouletteNumbers.length; i++) {
-                text(CustomTypes.rouletteNumbersDouble[i], u*i+hu, (float) (u*i+u*0.75));
+                float i2 = i + field_f;
+                text(CustomTypes.rouletteNumbersDouble[i], u*i2+hu, (float) (u*i2+u*0.75));
             }
         }
         public void text_based_on_field(String field) throws Exception {
@@ -51,7 +52,7 @@ public class TextManager {
             if (!found) {
                 throw new Exception("String is wrong");
             }
-            text_based_on_field(index);
+            text_based_on_field(index, index);
         }
     }
 }
