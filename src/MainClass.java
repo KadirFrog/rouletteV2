@@ -11,7 +11,7 @@ public class MainClass extends PApplet {
     public static void main(String[] args) {
         PApplet.main("MainClass", args);
     }
-
+    public static int current_frame = 0;
     public void c_size(int width, int height) {
         window_width = width;
         window_height = height;
@@ -45,6 +45,24 @@ public class MainClass extends PApplet {
 
         int loc0 = 28;
         int col0 = color(255, 255, 0);
+        for (int i = 0; i < inner1.size(); i++) {
+            if (i == loc0 || i == loc0 + 1) {
+                stroke(col0);
+            } else {
+                stroke(color(130, 40, 40));
+            }
+            CustomTypes.cline(inner1.get(i), outer1.get(i));
+        }
+        stroke(-65536);
+        for (int i = 1; i < inner1.size(); i += 2) {
+            try {
+                CustomTypes.cline(inner1.get(i), inner1.get(i + 1));
+                CustomTypes.cline(outer1.get(i), outer1.get(i + 1));
+            } catch (ArrayIndexOutOfBoundsException e) {
+                CustomTypes.cline(inner1.get(0), inner1.get(i));
+                CustomTypes.cline(outer1.get(0), outer1.get(i));
+            }
+        }
         for (int i = 0; i < inner1.size(); i += 2) {
             if (i == loc0) {
                 stroke(col0);
@@ -59,25 +77,9 @@ public class MainClass extends PApplet {
                 CustomTypes.cline(outer1.get(0), outer1.get(i));
             }
         }
-        stroke(-65536);
-        for (int i = 1; i < inner1.size(); i += 2) {
-            try {
-                CustomTypes.cline(inner1.get(i), inner1.get(i + 1));
-                CustomTypes.cline(outer1.get(i), outer1.get(i + 1));
-            } catch (ArrayIndexOutOfBoundsException e) {
-                CustomTypes.cline(inner1.get(0), inner1.get(i));
-                CustomTypes.cline(outer1.get(0), outer1.get(i));
-            }
-        }
-        for (int i = 0; i < inner1.size(); i++) {
-            if (i == loc0 || i == loc0 + 1) {
-                stroke(col0);
-            } else {
-                stroke(color(130, 40, 40));
-            }
-            CustomTypes.cline(inner1.get(i), outer1.get(i));
-        }
         main_center_point.text_based_on_field(0, 0);
+        current_frame++;
+
     }
 
     public void keyPressed() {
