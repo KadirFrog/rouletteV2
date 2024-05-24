@@ -34,7 +34,7 @@ public class MainClass extends PApplet {
     }
 
     public void draw() {
-        TextManager.RotationCenterPoint main_center_point = new TextManager.RotationCenterPoint(new CustomTypes.Position(100, 100), new CustomTypes.Length(20));
+        TextManager.RotationCenterPoint main_center_point = new TextManager.RotationCenterPoint(new CustomTypes.Position(100, 100), new CustomTypes.Length(22));
         //main_center_point.text("Testing really good", 0, 0.25F);
         delay(1);
         Vector<CustomTypes.Position> inner1 = RouletteDrawer.getRouletteCoordsInner();
@@ -42,8 +42,15 @@ public class MainClass extends PApplet {
         stroke(0);
         fill(color(140, 42, 42));
         circle(500, 500, RouletteDrawer.radiusOuter*2);
-        stroke(0);
+
+        int loc0 = 28;
+        int col0 = color(255, 255, 0);
         for (int i = 0; i < inner1.size(); i += 2) {
+            if (i == loc0) {
+                stroke(col0);
+            } else {
+                stroke(0);
+            }
             try {
                 CustomTypes.cline(inner1.get(i), inner1.get(i + 1));
                 CustomTypes.cline(outer1.get(i), outer1.get(i + 1));
@@ -63,7 +70,11 @@ public class MainClass extends PApplet {
             }
         }
         for (int i = 0; i < inner1.size(); i++) {
-            stroke(color(130, 40, 40));
+            if (i == loc0 || i == loc0 + 1) {
+                stroke(col0);
+            } else {
+                stroke(color(130, 40, 40));
+            }
             CustomTypes.cline(inner1.get(i), outer1.get(i));
         }
         main_center_point.text_based_on_field(0);
