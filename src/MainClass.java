@@ -43,7 +43,7 @@ public class MainClass extends PApplet {
         Vector<CustomTypes.Position> outer1 = RouletteDrawer.getRouletteCoordsOuter(0);
         stroke(0);
         fill(color(140, 42, 42));
-        circle(500, 500, RouletteDrawer.radiusOuter*2);
+        circle(500F, 500F, (float) (RouletteDrawer.radiusOuter*2));
 
         int loc0 = 28;
         int col0 = color(255, 255, 0);
@@ -58,8 +58,8 @@ public class MainClass extends PApplet {
         boolean locf = false;
         for (int i = 0; i < inner1.size(); i++) {
             if (i == loc0) {
-                stroke(col0);
                 locf = true;
+                continue;
             } else if (i % 2 == 0) {
                 stroke(locf ? 0 : -65536);
             } else {
@@ -73,6 +73,9 @@ public class MainClass extends PApplet {
                 CustomTypes.cline(outer1.get(0), outer1.get(i));
             }
         }
+        stroke(col0);
+        CustomTypes.cline(inner1.get(loc0), inner1.get(loc0 + 1));
+        CustomTypes.cline(outer1.get(loc0), outer1.get(loc0 + 1));
         main_center_point.text_based_on_field(0, 0);
         roll_button.draw();
         current_frame++;

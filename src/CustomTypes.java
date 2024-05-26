@@ -51,11 +51,11 @@ public class CustomTypes {
             this.text = text;
         }
         public void draw(){
-            MainClass.processing.stroke(0);
+            MainClass.processing.stroke(MainClass.processing.color(0, 90, 0));
             MainClass.processing.strokeWeight(5);
-            MainClass.processing.fill(255);
+            MainClass.processing.fill(MainClass.processing.color(130, 40, 40));
             MainClass.processing.rect(x, y, width, height);
-            MainClass.processing.fill(0);
+            MainClass.processing.fill(255);
             MainClass.processing.textAlign(MainClass.CENTER, MainClass.CENTER);
             MainClass.processing.textSize(16);
             MainClass.processing.text(text, x + width / 2, y + height / 2);
