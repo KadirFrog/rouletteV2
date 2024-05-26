@@ -8,10 +8,12 @@ public class MainClass extends PApplet {
     public static float unit_x, unit_y, unit;
     public static PApplet processing;
     public static boolean showBettingMenu = false;
+    private boolean rolling = false;
     public static void main(String[] args) {
         PApplet.main("MainClass", args);
     }
     public static int current_frame = 0;
+    CustomTypes.Button roll_button = new CustomTypes.Button(500, 900, 100, 50, "Roll");
     public void c_size(int width, int height) {
         window_width = width;
         window_height = height;
@@ -72,19 +74,32 @@ public class MainClass extends PApplet {
             }
         }
         main_center_point.text_based_on_field(0, 0);
+        roll_button.draw();
         current_frame++;
 
     }
 
     public void keyPressed() {
-        if (key == 'm') {
-            showBettingMenu = !showBettingMenu;
-            if (showBettingMenu) {
-                String[] additionalWindowArgs = {"BettingMenu"};
-                PApplet.runSketch(additionalWindowArgs, new BettingMenu());
-            } else {
-                Frame frame = ((PSurfaceAWT.SmoothCanvas) BettingMenu.processing.getSurface().getNative()).getFrame();
-                frame.dispose();
+        if (!rolling) {
+            if (key == 'm') {
+                showBettingMenu = !showBettingMenu;
+                if (showBettingMenu) {
+                    String[] additionalWindowArgs = {"BettingMenu"};
+                    PApplet.runSketch(additionalWindowArgs, new BettingMenu());
+                } else {
+                    Frame frame = ((PSurfaceAWT.SmoothCanvas) BettingMenu.processing.getSurface().getNative()).getFrame();
+                    frame.dispose();
+                }
+            }
+        }
+    }
+
+    public void mousePressed() {
+        if (roll_button.isMouseInside(mouseX, mouseY)) {
+            System.out.println("Rolling");
+            if (BetManager.bet_ready) {
+                BetManager.bet_ready = false;
+                rolling = true;
             }
         }
     }
