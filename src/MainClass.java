@@ -9,6 +9,7 @@ public class MainClass extends PApplet {
     public static PApplet processing;
     public static boolean showBettingMenu = false;
     private boolean rolling = false;
+    private int roll_frame;
     public static void main(String[] args) {
         PApplet.main("MainClass", args);
     }
@@ -36,14 +37,25 @@ public class MainClass extends PApplet {
     }
 
     public void draw() {
+        background(color(0, 150, 0));
         TextManager.RotationCenterPoint main_center_point = new TextManager.RotationCenterPoint(new CustomTypes.Position(100, 100), new CustomTypes.Length(22));
         //main_center_point.text("Testing really good", 0, 0.25F);
-        delay(1);
-        Vector<CustomTypes.Position> inner1 = RouletteDrawer.getRouletteCoordsInner(0);
-        Vector<CustomTypes.Position> outer1 = RouletteDrawer.getRouletteCoordsOuter(0);
+        Vector<CustomTypes.Position> inner1 = null;
+        Vector<CustomTypes.Position> outer1 = null;
         stroke(0);
         fill(color(140, 42, 42));
         circle(500F, 500F, (float) (RouletteDrawer.radiusOuter*2));
+        if (!rolling) {
+            inner1 = RouletteDrawer.getRouletteCoordsInner(0);
+            outer1 = RouletteDrawer.getRouletteCoordsOuter(0);
+            main_center_point.text_based_on_field(0, 0);
+            roll_button.draw();
+        } else {
+            background(color(0, 150, 0));
+            inner1 = RouletteDrawer.getRouletteCoordsInner((float) (current_frame - roll_frame) / 30);
+            outer1 = RouletteDrawer.getRouletteCoordsOuter((float) (current_frame - roll_frame) / 30);
+            main_center_point.text_based_on_field(0, (float) (current_frame - roll_frame) / 30);
+        }
 
         int loc0 = 28;
         int col0 = color(255, 255, 0);
@@ -76,10 +88,8 @@ public class MainClass extends PApplet {
         stroke(col0);
         CustomTypes.cline(inner1.get(loc0), inner1.get(loc0 + 1));
         CustomTypes.cline(outer1.get(loc0), outer1.get(loc0 + 1));
-        main_center_point.text_based_on_field(0, 0);
-        roll_button.draw();
         current_frame++;
-
+        //System.out.println(current_frame);
     }
 
     public void keyPressed() {
@@ -98,11 +108,14 @@ public class MainClass extends PApplet {
     }
 
     public void mousePressed() {
-        if (roll_button.isMouseInside(mouseX, mouseY)) {
+        if (roll_button.isMouseInside(mouseX, mouseY) && !rolling) {
             System.out.println("Rolling");
             if (BetManager.bet_ready) {
                 BetManager.bet_ready = false;
+                roll_frame = current_frame;
                 rolling = true;
+            } else {
+                System.out.println("Bet not ready");
             }
         }
     }
