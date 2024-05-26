@@ -53,21 +53,15 @@ public class MainClass extends PApplet {
             }
             CustomTypes.cline(inner1.get(i), outer1.get(i));
         }
-        stroke(-65536);
-        for (int i = 1; i < inner1.size(); i += 2) {
-            try {
-                CustomTypes.cline(inner1.get(i), inner1.get(i + 1));
-                CustomTypes.cline(outer1.get(i), outer1.get(i + 1));
-            } catch (ArrayIndexOutOfBoundsException e) {
-                CustomTypes.cline(inner1.get(0), inner1.get(i));
-                CustomTypes.cline(outer1.get(0), outer1.get(i));
-            }
-        }
-        for (int i = 0; i < inner1.size(); i += 2) {
+        boolean locf = false;
+        for (int i = 0; i < inner1.size(); i++) {
             if (i == loc0) {
                 stroke(col0);
+                locf = true;
+            } else if (i % 2 == 0) {
+                stroke(locf ? 0 : -65536);
             } else {
-                stroke(0);
+                stroke(locf ? -65536 : 0);
             }
             try {
                 CustomTypes.cline(inner1.get(i), inner1.get(i + 1));
