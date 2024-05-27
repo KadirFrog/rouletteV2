@@ -51,7 +51,6 @@ public class MainClass extends PApplet {
             main_center_point.text_based_on_field(0, 0);
             roll_button.draw();
         } else {
-            background(color(0, 150, 0));
             inner1 = RouletteDrawer.getRouletteCoordsInner((float) (current_frame - roll_frame) / 30);
             outer1 = RouletteDrawer.getRouletteCoordsOuter((float) (current_frame - roll_frame) / 30);
             main_center_point.text_based_on_field(0, (float) (current_frame - roll_frame) / 30);
