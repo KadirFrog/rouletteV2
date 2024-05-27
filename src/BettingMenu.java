@@ -55,7 +55,12 @@ public class BettingMenu extends PApplet {
         table4Buttons = new Button[table4Cols];
         table5Buttons = new Button[table5Cols];
 
-        buttonStates = new int[mainTableRows + 2][mainTableCols];
+        buttonStates = new int[mainTableRows + 2][];
+        for (int i = 0; i < mainTableRows; i++) {
+            buttonStates[i] = new int[mainTableCols];
+        }
+        buttonStates[mainTableRows] = new int[table4Cols];
+        buttonStates[mainTableRows + 1] = new int[table5Cols];
 
         final int green = color(0, 255, 0);
         final int red = color(255, 0, 0);
@@ -179,7 +184,11 @@ public class BettingMenu extends PApplet {
             for (int[] buttonState : buttonStates) {
                 for (int i : buttonState) {
                     if (i > 0) {
-                        BetManager.bets.put(joinedArray[count], i);
+                        if (count >= (rouletteNumbers.length)) {
+                            BetManager.bets.put(joinedArray[count + 1], i);
+                        } else {
+                            BetManager.bets.put(joinedArray[count], i);
+                        }
                         BetManager.bet = current_bet;
                     }
                     count++;
