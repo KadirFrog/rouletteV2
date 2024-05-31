@@ -1,5 +1,8 @@
 import java.util.Vector;
 
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
 public class RouletteDrawer {
     public static int radiusInner, radiusOuter;
 
@@ -13,15 +16,11 @@ public class RouletteDrawer {
         int segments = 37;
         float angleIncrement = (float) (2 * Math.PI / segments);
 
-        for (int i = 0; i < segments; i += 2) {
-            float angleStart = (i + turned_segment) * angleIncrement;
-            float xStart = (float) (radius * Math.cos(angleStart));
-            float yStart = (float) (radius * Math.sin(angleStart));
-            coords.add(new CustomTypes.Position(500 + xStart, 500 + yStart, true));
-            float angleEnd = (i + 1) * angleIncrement;
-            float xEnd = (float) (radius * Math.cos(angleEnd));
-            float yEnd = (float) (radius * Math.sin(angleEnd));
-            coords.add(new CustomTypes.Position(500 + xEnd, 500 + yEnd, true));
+        for (int i = 0; i < segments; i++) {
+            float angle = (i + turned_segment) * angleIncrement;
+            float x = (float) (radius * cos(angle));
+            float y = (float) (radius * sin(angle));
+            coords.add(new CustomTypes.Position(500 + x, 500 + y, true));
         }
 
         return coords;
