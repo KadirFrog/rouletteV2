@@ -10,7 +10,8 @@ public class MainClass extends PApplet {
     public static boolean showBettingMenu = false;
     private boolean rolling = false;
     private int roll_frame, stop_frame;
-    private float last_rotation, starting_rotation = 0;
+    private float circle_y = 280, circle_x = 500;
+    private float starting_rotation = 0;
     public static void main(String[] args) {
         PApplet.main("MainClass", args);
     }
@@ -41,17 +42,19 @@ public class MainClass extends PApplet {
         background(color(0, 150, 0));
         TextManager.RotationCenterPoint main_center_point = new TextManager.RotationCenterPoint(new CustomTypes.Position(100, 100), new CustomTypes.Length(22));
         //main_center_point.text("Testing really good", 0, 0.25F);
-        Vector<CustomTypes.Position> inner1 = null;
-        Vector<CustomTypes.Position> outer1 = null;
+        Vector<CustomTypes.Position> inner1;
+        Vector<CustomTypes.Position> outer1;
         stroke(0);
         fill(color(140, 42, 42));
         circle(500F, 500F, (float) (RouletteDrawer.radiusOuter*2));
         if (rolling) {
-            last_rotation = (float) (current_frame - roll_frame) / 30;
+            float last_rotation = (float) (current_frame - roll_frame) / 30;
             float rotation = last_rotation + starting_rotation;
             inner1 = RouletteDrawer.getRouletteCoordsInner(rotation);
             outer1 = RouletteDrawer.getRouletteCoordsOuter(rotation);
             main_center_point.text_based_on_field(0, rotation);
+            circle_y += ((circle_y < 280) ? RandomManager.randint(1, 2) : -RandomManager.randint(1, 2)) * .2F;
+            circle_x += ((circle_x < 500) ? RandomManager.randint(1, 2) : -RandomManager.randint(1, 2)) * .1F;
             if (current_frame == stop_frame) {
                 rolling = false;
                 BetManager.bet_ready = false;
@@ -98,7 +101,7 @@ public class MainClass extends PApplet {
         fill(255);
         stroke(color(0, 90, 0));
         strokeWeight(1);
-        circle(500, 280, 20);
+        circle(circle_x, circle_y, 20);
         current_frame++;
         //System.out.println(current_frame);
     }
