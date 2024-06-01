@@ -9,7 +9,8 @@ public class MainClass extends PApplet {
     public static PApplet processing;
     public static boolean showBettingMenu = false;
     private boolean rolling = false;
-    private int roll_frame;
+    private int roll_frame, stop_frame;
+    private float last_rotation, starting_rotation = 0;
     public static void main(String[] args) {
         PApplet.main("MainClass", args);
     }
@@ -45,15 +46,22 @@ public class MainClass extends PApplet {
         stroke(0);
         fill(color(140, 42, 42));
         circle(500F, 500F, (float) (RouletteDrawer.radiusOuter*2));
-        if (!rolling) {
-            inner1 = RouletteDrawer.getRouletteCoordsInner(0);
-            outer1 = RouletteDrawer.getRouletteCoordsOuter(0);
-            main_center_point.text_based_on_field(0, 0);
-            roll_button.draw();
+        if (rolling) {
+            last_rotation = (float) (current_frame - roll_frame) / 30;
+            float rotation = last_rotation + starting_rotation;
+            inner1 = RouletteDrawer.getRouletteCoordsInner(rotation);
+            outer1 = RouletteDrawer.getRouletteCoordsOuter(rotation);
+            main_center_point.text_based_on_field(0, rotation);
+            if (current_frame == stop_frame) {
+                rolling = false;
+                BetManager.bet_ready = false;
+                starting_rotation += last_rotation;
+            }
         } else {
-            inner1 = RouletteDrawer.getRouletteCoordsInner((float) (current_frame - roll_frame) / 30);
-            outer1 = RouletteDrawer.getRouletteCoordsOuter((float) (current_frame - roll_frame) / 30);
-            main_center_point.text_based_on_field(0, (float) (current_frame - roll_frame) / 30);
+            inner1 = RouletteDrawer.getRouletteCoordsInner(starting_rotation);
+            outer1 = RouletteDrawer.getRouletteCoordsOuter(starting_rotation);
+            main_center_point.text_based_on_field(0, starting_rotation);
+            roll_button.draw();
         }
 
         int loc0 = 28;
@@ -112,6 +120,7 @@ public class MainClass extends PApplet {
             if (BetManager.bet_ready) {
                 BetManager.bet_ready = false;
                 roll_frame = current_frame;
+                stop_frame = roll_frame + 30 * 3;
                 rolling = true;
             } else {
                 System.out.println("Bet not ready");
