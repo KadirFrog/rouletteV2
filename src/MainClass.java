@@ -95,6 +95,10 @@ public class MainClass extends PApplet {
         stroke(col0);
         CustomTypes.cline(inner1.get(loc0), inner1.get(loc0 + 1));
         CustomTypes.cline(outer1.get(loc0), outer1.get(loc0 + 1));
+        fill(255);
+        stroke(color(0, 90, 0));
+        strokeWeight(1);
+        circle(500, 280, 20);
         current_frame++;
         //System.out.println(current_frame);
     }
