@@ -50,7 +50,7 @@ public class MainClass extends PApplet {
         fill(color(140, 42, 42));
         circle(500F, 500F, (float) (RouletteDrawer.radiusOuter*2));
         if (rolling) {
-            float last_rotation = (float) (current_frame - roll_frame) / 30;
+            float last_rotation = (float) -(current_frame - roll_frame) / 30;
             float rotation = last_rotation + starting_rotation;
             inner1 = RouletteDrawer.getRouletteCoordsInner(rotation);
             outer1 = RouletteDrawer.getRouletteCoordsOuter(rotation);
@@ -137,19 +137,20 @@ public class MainClass extends PApplet {
                 roll_frame = current_frame;
                 String wanted_number = "" + RandomManager.randint(0, 36);
                 int wanted_number_id = CustomTypes.getNumberIndex(wanted_number);
-                int current_number_id = (int) (RouletteDrawer.last_turn - SPI);
+                int current_number_id = (int) RouletteDrawer.last_turn;
                 String current_number = CustomTypes.rouletteNumbersDouble[current_number_id];
-                int roll_deg;
+                float roll_deg;
                 if (wanted_number_id > current_number_id) {
                     roll_deg = wanted_number_id - current_number_id;
                 } else {
                     roll_deg = 37 - current_number_id + wanted_number_id;
                 }
+                roll_deg += .5F;
                 if (debug) {
                     System.out.println("Current number: " + current_number + ", Wanted number: " + wanted_number + ", Roll degrees: " + roll_deg);
                     System.out.println("Current number id: " + current_number_id + ", Wanted number id: " + wanted_number_id);
                 }
-                stop_frame = roll_frame + 30 * roll_deg; // stop_frame = roll_frame + 30 * degrees_to_turn
+                stop_frame = (int) (roll_frame + 30 * (roll_deg)); // stop_frame = roll_frame + 30 * degrees_to_turn
                 rolling = true;
             } else {
                 System.out.println("Bet not ready");
