@@ -28,7 +28,7 @@ public class RouletteDrawer {
     }
 
     public static Vector<CustomTypes.Position> getRouletteCoordsInner(float turn) {
-        System.out.println("Turn = " + turn + "°");
+        //System.out.println("Turn = " + turn + "°");
         last_turn = turn;
         return getRouletteCoordsBack(radiusInner, turn);
     }

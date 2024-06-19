@@ -9,7 +9,7 @@ public class MainClass extends PApplet {
     public static float unit_x, unit_y, unit;
     public static PApplet processing;
     public static boolean showBettingMenu = false;
-    private boolean rolling = false;
+    private boolean rolling = false, debug = false;
     private int roll_frame, stop_frame;
     private float circle_y = 280, circle_x = 500;
     private final float SPI = PI*.1F;
@@ -111,6 +111,7 @@ public class MainClass extends PApplet {
 
     void debug() {
         line(500, 500, 500, 200);
+        debug = true;
     }
 
     public void keyPressed() {
@@ -138,7 +139,17 @@ public class MainClass extends PApplet {
                 int wanted_number_id = CustomTypes.getNumberIndex(wanted_number);
                 int current_number_id = (int) (RouletteDrawer.last_turn - SPI);
                 String current_number = CustomTypes.rouletteNumbersDouble[current_number_id];
-                stop_frame = roll_frame + 30 * 10; // stop_frame = roll_frame + 30 * degrees_to_turn
+                int roll_deg;
+                if (wanted_number_id > current_number_id) {
+                    roll_deg = wanted_number_id - current_number_id;
+                } else {
+                    roll_deg = 37 - current_number_id + wanted_number_id;
+                }
+                if (debug) {
+                    System.out.println("Current number: " + current_number + ", Wanted number: " + wanted_number + ", Roll degrees: " + roll_deg);
+                    System.out.println("Current number id: " + current_number_id + ", Wanted number id: " + wanted_number_id);
+                }
+                stop_frame = roll_frame + 30 * roll_deg; // stop_frame = roll_frame + 30 * degrees_to_turn
                 rolling = true;
             } else {
                 System.out.println("Bet not ready");
