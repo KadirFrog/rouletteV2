@@ -94,7 +94,7 @@ public class BettingMenu extends PApplet {
         }
 
         buttonWidth /= 2;
-        final int[] color2 = {green, green, black, red, green, green};
+        final int[] color2 = {green, green, red, black, green, green};
         for (int i = 0; i < table5Cols; i++) {
             int x = i * buttonWidth + oldButtonWidth;
             int y = (mainTableRows + 1) * buttonHeight;
