@@ -14,6 +14,7 @@ public class MainClass extends PApplet {
     private float circle_y = 280, circle_x = 500;
     private final float SPI = PI*.1F;
     private float starting_rotation = SPI - .5F;
+    int wanted_number1;
     public static void main(String[] args) {
         PApplet.main("MainClass", args);
     }
@@ -61,6 +62,7 @@ public class MainClass extends PApplet {
                 rolling = false;
                 BetManager.bet_ready = false;
                 starting_rotation += last_rotation;
+                BetManager.calculate_winnings(wanted_number1);
             }
         } else {
             inner1 = RouletteDrawer.getRouletteCoordsInner(starting_rotation);
@@ -135,10 +137,11 @@ public class MainClass extends PApplet {
             if (BetManager.bet_ready) {
                 BetManager.bet_ready = false;
                 roll_frame = current_frame;
-                String wanted_number = "" + RandomManager.randint(0, 36);
+                wanted_number1 = RandomManager.randint(0, 36);
+                String wanted_number = "" + wanted_number1;
                 int wanted_number_id = CustomTypes.getNumberIndex(wanted_number);
-                int current_number_id = (int) RouletteDrawer.last_turn;
-                String current_number = CustomTypes.rouletteNumbersDouble[current_number_id];
+                int current_number_id = (int) RouletteDrawer.last_turn % 360;
+                String current_number = CustomTypes.rouletteNumbersD2[current_number_id];
                 float roll_deg;
                 if (wanted_number_id > current_number_id) {
                     roll_deg = wanted_number_id - current_number_id;

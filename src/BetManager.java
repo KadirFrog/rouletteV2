@@ -21,17 +21,17 @@ public class BetManager {
        } catch (Exception ignored) {}
        for (String key : bets.keySet()) {
            if (key.equals("EVEN") && digit % 2 == 0) {
-               money += bets.get(key) * 2;
+               money += bets.get(key) * 200;
            } else if (key.equals("ODD") && digit % 2 != 0) {
-               money += bets.get(key) * 2;
+               money += bets.get(key) * 200;
            } else if (key.equals("RED") && red == rouletteColors[digit]) {
-               money += bets.get(key) * 2;
+               money += bets.get(key) * 200;
            } else if (key.equals("BLACK") && black == rouletteColors[digit]) {
-               money += bets.get(key) * 2;
+               money += bets.get(key) * 200;
            } else if (key.equals("1 to 18") && digit >= 1 && digit <= 18) {
-               money += bets.get(key) * 2;
+               money += bets.get(key) * 200;
            } else if (key.equals("19 to 36") && digit >= 19 && digit <= 36) {
-               money += bets.get(key) * 2;
+               money += bets.get(key) * 200;
            }
        }
     }
