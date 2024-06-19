@@ -1,6 +1,7 @@
 import processing.awt.PSurfaceAWT;
 import processing.core.PApplet;
 import java.awt.*;
+import java.nio.channels.spi.AbstractSelectionKey;
 import java.util.Vector;
 
 public class MainClass extends PApplet {
@@ -11,7 +12,8 @@ public class MainClass extends PApplet {
     private boolean rolling = false;
     private int roll_frame, stop_frame;
     private float circle_y = 280, circle_x = 500;
-    private float starting_rotation = 0;
+    private final float SPI = PI*.1F;
+    private float starting_rotation = SPI - .5F;
     public static void main(String[] args) {
         PApplet.main("MainClass", args);
     }
@@ -102,8 +104,13 @@ public class MainClass extends PApplet {
         stroke(color(0, 90, 0));
         strokeWeight(1);
         circle(circle_x, circle_y, 20);
+        debug();
         current_frame++;
         //System.out.println(current_frame);
+    }
+
+    void debug() {
+        line(500, 500, 500, 200);
     }
 
     public void keyPressed() {
@@ -127,7 +134,11 @@ public class MainClass extends PApplet {
             if (BetManager.bet_ready) {
                 BetManager.bet_ready = false;
                 roll_frame = current_frame;
-                stop_frame = roll_frame + 30 * 3;
+                String wanted_number = "" + RandomManager.randint(0, 36);
+                int wanted_number_id = CustomTypes.getNumberIndex(wanted_number);
+                int current_number_id = (int) (RouletteDrawer.last_turn - SPI);
+                String current_number = CustomTypes.rouletteNumbersDouble[current_number_id];
+                stop_frame = roll_frame + 30 * 10; // stop_frame = roll_frame + 30 * degrees_to_turn
                 rolling = true;
             } else {
                 System.out.println("Bet not ready");

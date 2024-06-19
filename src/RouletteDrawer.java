@@ -5,6 +5,7 @@ import static java.lang.Math.sin;
 
 public class RouletteDrawer {
     public static int radiusInner, radiusOuter;
+    public static float last_turn;
 
     public static void setup(int radiusInner, int radiusOuter) {
         RouletteDrawer.radiusInner = radiusInner;
@@ -27,6 +28,8 @@ public class RouletteDrawer {
     }
 
     public static Vector<CustomTypes.Position> getRouletteCoordsInner(float turn) {
+        System.out.println("Turn = " + turn + "°");
+        last_turn = turn;
         return getRouletteCoordsBack(radiusInner, turn);
     }
 
