@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="roulette:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/roulette_jar</output-path>
+    <root id="archive" name="roulette.jar">
+      <element id="module-output" name="roulette" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/processing-4.3/core/library/core.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/processing-4.3/core/library/jogl-all.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/processing-4.3/core/library/gluegen-rt.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

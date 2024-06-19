@@ -106,7 +106,7 @@ public class MainClass extends PApplet {
         stroke(color(0, 90, 0));
         strokeWeight(1);
         circle(circle_x, circle_y, 20);
-        debug();
+        //debug();
         current_frame++;
         //System.out.println(current_frame);
     }
